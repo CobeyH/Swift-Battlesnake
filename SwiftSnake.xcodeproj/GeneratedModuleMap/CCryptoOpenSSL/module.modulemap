@@ -1,0 +1,4 @@
+module CCryptoOpenSSL {
+    umbrella "/Users/cobeyhollier/Programming/Swift/SwiftSnake/.build/checkouts/crypto/Sources/CCryptoOpenSSL/include"
+    export *
+}
