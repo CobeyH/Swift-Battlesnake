@@ -10,4 +10,5 @@ import Foundation
 enum Profile {
     case AlphaBeta
     case AStar
+    case None
 }

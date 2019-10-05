@@ -15,7 +15,7 @@ struct Data: Codable, CustomStringConvertible {
 // MARK: - Board
 struct Board: Codable {
     let height, width: Int
-    let food: [CGPoint]
+    let food: [Point]
     let snakes: [Snake]
     
 }
@@ -24,7 +24,7 @@ struct Board: Codable {
 struct Snake: Codable, CustomStringConvertible {
     let id, name: String
     let health: Int
-    let body: [CGPoint]
+    let body: [Point]
     
     var description: String {
         "Name: \(name) Health: \(health) \n Body: \(body)\n"

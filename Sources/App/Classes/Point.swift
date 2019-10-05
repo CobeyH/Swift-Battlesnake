@@ -6,15 +6,31 @@
 //
 
 import Foundation
+import AStar
 
-extension CGPoint: CustomStringConvertible {
+
+
+final class Point: CustomStringConvertible, GraphNode, Codable, Hashable {
+    
+    let x: Int
+    let y: Int
+
+    init(x: Int, y: Int) {
+        self.x = x
+        self.y = y
+        connectedNodes = []
+    }
+    
+    public var connectedNodes: Set<Point>
+    
+     func setConnectedNodes(for snake: Snake, with data: Data) {
+        connectedNodes = successors(for: snake, with: data)
+    }
     
     func find_safe_move(for snake: Snake, from data: Data) -> String {
-        if CGPoint(x: self.x + 1, y:self.y).is_safe(for: snake, with: data) {
-            return "right"
-        } else if CGPoint(x: self.x, y: self.y + 1).is_safe(for: snake, with: data) {
+        if Point(x: self.x, y: self.y + 1).is_safe(for: snake, with: data) {
             return "down"
-        } else if CGPoint(x: self.x, y: self.y - 1).is_safe(for: snake, with: data) {
+        } else if Point(x: self.x, y: self.y - 1).is_safe(for: snake, with: data) {
             return "up"
         }
         return "left"
@@ -24,7 +40,7 @@ extension CGPoint: CustomStringConvertible {
           let width = data.board.width
           let height = data.board.height
           
-        if(Int(self.x) >= width || Int(self.x) < 0) { return false }
+        if(self.x >= width || self.x < 0) { return false }
           if(Int(self.y) >= height || Int(self.y) < 0) { return false }
           return true
       }
@@ -44,21 +60,50 @@ extension CGPoint: CustomStringConvertible {
         return true
     }
     
-    func orthogonal() -> [CGPoint] {
+    func orthogonal() -> [Point] {
         let orth = [
-            CGPoint(x: self.x - 1, y: self.y),
-            CGPoint(x: self.x + 1, y: self.y),
-            CGPoint(x: self.x, y: self.y + 1),
-            CGPoint(x: self.x, y: self.y - 1)
+            Point(x: self.x - 1, y: self.y),
+            Point(x: self.x + 1, y: self.y),
+            Point(x: self.x, y: self.y + 1),
+            Point(x: self.x, y: self.y - 1)
         ]
         return orth
     }
     
-    static func == (point1: CGPoint, point2: CGPoint) -> Bool {
+    func distance(to point: Point) -> Int {
+        return abs(self.x - point.x) + abs(self.y - point.y)
+    }
+    
+    func successors(for snake: Snake, with data: Data) ->  Set<Point>{
+        var successors: Set<Point> = []
+        for p in self.orthogonal() {
+            if p.is_safe(for: snake, with: data) {
+                successors.insert(p)
+            }
+        }
+        return successors
+    }
+    
+    static func == (point1: Point, point2: Point) -> Bool {
         return (point1.x == point2.x && point1.y == point2.y)
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(x)
+        hasher.combine(y)
     }
     
     public var description : String {
         "(\(self.x), \(self.y))"
+    }
+    
+    // Mark - AStar Methods
+    
+    public func estimatedCost(to node: Point) -> Float {
+        return Float(distance(to: node))
+    }
+    
+    public func cost(to node: Point) -> Float {
+        return 1
     }
 }

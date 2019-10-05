@@ -7,7 +7,7 @@
 
 import Foundation
 
-let profile: Profile = .AStar
+let profile: Profile = .None
 
 func getNextMove(data: Data) -> [String: String] {
     switch profile {
