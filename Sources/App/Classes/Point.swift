@@ -20,7 +20,6 @@ final class Point: Codable, CustomStringConvertible {
     
     func find_safe_move(for snake: Snake, from data: Data) -> String {
         if Point(x: self.x + 1, y:self.y).is_safe(for: snake, with: data) {
-            print("going right")
             return "right"
         } else if Point(x: self.x, y: self.y + 1).is_safe(for: snake, with: data) {
             return "down"
