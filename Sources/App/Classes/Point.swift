@@ -20,13 +20,13 @@ final class Point: Codable {
         print("(\(self.x), \(self.y))")
     }
     
-    func find_safe_move(from data: Data) -> String {
-        if Point(x: self.x + 1, y:self.y).is_safe(with: data) {
+    func find_safe_move(for snake: Snake, from data: Data) -> String {
+        if Point(x: self.x + 1, y:self.y).is_safe(for: snake, with: data) {
             print("going right")
             return "right"
-        } else if Point(x: self.x, y: self.y + 1).is_safe(with: data) {
+        } else if Point(x: self.x, y: self.y + 1).is_safe(for: snake, with: data) {
             return "down"
-        } else if Point(x: self.x, y: self.y - 1).is_safe(with: data) {
+        } else if Point(x: self.x, y: self.y - 1).is_safe(for: snake, with: data) {
             return "up"
         }
         return "left"
@@ -41,10 +41,12 @@ final class Point: Codable {
           return true
       }
     
-    func is_safe(with data: Data) -> Bool {
+    func is_safe(for me: Snake, with data: Data) -> Bool {
         if !in_bounds(with: data){ return false }
-        
         for snake in data.board.snakes {
+            if(snake.id == me.id && self == snake.body[0]) {
+                return me.body.count > snake.body.count
+            }
             for point in snake.body {
                 if point.x == self.x && point.y == self.y {
                     return false
@@ -54,4 +56,13 @@ final class Point: Codable {
         return true
     }
     
+    func orthogonal() -> [Point] {
+        let orth = [
+            Point(x: self.x - 1, y: self.y),
+            Point(x: self.x + 1, y: self.y),
+            Point(x: self.x, y: self.y + 1),
+            Point(x: self.x, y: self.y - 1)
+        ]
+        return orth
+    }
 }
