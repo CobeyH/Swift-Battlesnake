@@ -1,3 +1,5 @@
+import Foundation
+
 // MARK: - Data
 struct Data: Codable, CustomStringConvertible {
     let game: Game
@@ -13,16 +15,16 @@ struct Data: Codable, CustomStringConvertible {
 // MARK: - Board
 struct Board: Codable {
     let height, width: Int
-    let food: [Point]
+    let food: [CGPoint]
     let snakes: [Snake]
     
 }
 
-// MARK: - You
+// MARK: - Snake
 struct Snake: Codable, CustomStringConvertible {
     let id, name: String
     let health: Int
-    let body: [Point]
+    let body: [CGPoint]
     
     var description: String {
         "Name: \(name) Health: \(health) \n Body: \(body)\n"

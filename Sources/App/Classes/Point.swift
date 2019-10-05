@@ -7,23 +7,14 @@
 
 import Foundation
 
-final class Point: Codable, CustomStringConvertible {
-    let x: Int
-    let y: Int
-
-    init(x: Int, y: Int) {
-        self.x = x
-        self.y = y
-    }
-    
-  
+extension CGPoint: CustomStringConvertible {
     
     func find_safe_move(for snake: Snake, from data: Data) -> String {
-        if Point(x: self.x + 1, y:self.y).is_safe(for: snake, with: data) {
+        if CGPoint(x: self.x + 1, y:self.y).is_safe(for: snake, with: data) {
             return "right"
-        } else if Point(x: self.x, y: self.y + 1).is_safe(for: snake, with: data) {
+        } else if CGPoint(x: self.x, y: self.y + 1).is_safe(for: snake, with: data) {
             return "down"
-        } else if Point(x: self.x, y: self.y - 1).is_safe(for: snake, with: data) {
+        } else if CGPoint(x: self.x, y: self.y - 1).is_safe(for: snake, with: data) {
             return "up"
         }
         return "left"
@@ -33,8 +24,8 @@ final class Point: Codable, CustomStringConvertible {
           let width = data.board.width
           let height = data.board.height
           
-          if(self.x >= width || self.x < 0) { return false}
-          if(self.y >= height || self.y < 0) { return false }
+        if(Int(self.x) >= width || Int(self.x) < 0) { return false }
+          if(Int(self.y) >= height || Int(self.y) < 0) { return false }
           return true
       }
     
@@ -53,21 +44,21 @@ final class Point: Codable, CustomStringConvertible {
         return true
     }
     
-    func orthogonal() -> [Point] {
+    func orthogonal() -> [CGPoint] {
         let orth = [
-            Point(x: self.x - 1, y: self.y),
-            Point(x: self.x + 1, y: self.y),
-            Point(x: self.x, y: self.y + 1),
-            Point(x: self.x, y: self.y - 1)
+            CGPoint(x: self.x - 1, y: self.y),
+            CGPoint(x: self.x + 1, y: self.y),
+            CGPoint(x: self.x, y: self.y + 1),
+            CGPoint(x: self.x, y: self.y - 1)
         ]
         return orth
     }
     
-    static func == (point1: Point, point2: Point) -> Bool {
+    static func == (point1: CGPoint, point2: CGPoint) -> Bool {
         return (point1.x == point2.x && point1.y == point2.y)
     }
     
-    var description : String {
+    public var description : String {
         "(\(self.x), \(self.y))"
     }
 }
