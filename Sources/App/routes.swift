@@ -15,10 +15,12 @@ public func routes(_ router: Router) throws {
     
     // Response to /move requests
     router.post("move") { req -> [String: String] in
-        print(req)
-        let test = ["move": "left"]
-        let json = req.content
-        return test
+        let move = try req.content.decode(Data.self).map { data -> [String: String] in
+            print(data)
+            return ["move": "right"]
+        }
+        
+        return move
     }
     
     router.post("ping") { req -> [String: String] in
@@ -32,25 +34,34 @@ public func routes(_ router: Router) throws {
     }
 }
 
-struct Data: Content {
+// MARK: - Data
+struct Data: Codable {
     let game: Game
     let turn: Int
     let board: Board
+    let you: You
 }
 
-struct Game: Content {
-    let id: String
+// MARK: - Board
+struct Board: Codable {
+    let height, width: Int
+    let food: [Food]
+    let snakes: [You]
 }
 
-struct Board: Content {
-    let food: [Point]
-    let snakes: [Snake]
-    let you: Snake
+// MARK: - Food
+struct Food: Codable {
+    let x, y: Int
 }
 
-struct Snake: Content {
-    let id: String
-    let name: String
+// MARK: - You
+struct You: Codable {
+    let id, name: String
     let health: Int
-    let body: [Point]
+    let body: [Food]
+}
+
+// MARK: - Game
+struct Game: Codable {
+    let id: String
 }

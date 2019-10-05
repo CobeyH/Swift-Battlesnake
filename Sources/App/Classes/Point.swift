@@ -4,11 +4,10 @@
 //
 //  Created by Cobey Hollier on 2019-10-03.
 //
-import Vapor
 
 import Foundation
 
-final class Point: Content {
+final class Point: Codable {
     let x: Int
     let y: Int
 
