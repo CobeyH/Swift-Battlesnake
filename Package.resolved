@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "AStar",
+        "repositoryURL": "https://github.com/Dev1an/A-Star.git",
+        "state": {
+          "branch": "master",
+          "revision": "036256f9a8d1dda44085a2b92fa58199446a8339",
+          "version": null
+        }
+      },
+      {
         "package": "Console",
         "repositoryURL": "https://github.com/vapor/console.git",
         "state": {

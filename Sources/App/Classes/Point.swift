@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class Point: Codable {
+final class Point: Codable, CustomStringConvertible {
     let x: Int
     let y: Int
 
@@ -16,9 +16,7 @@ final class Point: Codable {
         self.y = y
     }
     
-    func log() {
-        print("(\(self.x), \(self.y))")
-    }
+  
     
     func find_safe_move(for snake: Snake, from data: Data) -> String {
         if Point(x: self.x + 1, y:self.y).is_safe(for: snake, with: data) {
@@ -64,5 +62,13 @@ final class Point: Codable {
             Point(x: self.x, y: self.y - 1)
         ]
         return orth
+    }
+    
+    static func == (point1: Point, point2: Point) -> Bool {
+        return (point1.x == point2.x && point1.y == point2.y)
+    }
+    
+    var description : String {
+        "(\(self.x), \(self.y))"
     }
 }

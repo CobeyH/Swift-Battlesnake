@@ -10,7 +10,7 @@ import Foundation
 func getNextMove(data: Data) -> [String: String] {
     print(data)
     let head = data.you.body[0]
-    let dir = head.find_safe_move(from: data)
+    let dir = head.find_safe_move(for: data.you, from: data)
     return ["move": dir]
 
 }
