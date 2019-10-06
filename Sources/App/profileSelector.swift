@@ -18,6 +18,7 @@ func getNextMove(data: Data) -> [String: String] {
         default:
             let head = data.you.body[0]
             let dir = head.find_safe_move(for: data.you, from: data)
+            print(data)
             return ["move": dir]
         
     }

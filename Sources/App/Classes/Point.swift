@@ -10,28 +10,25 @@ import AStar
 
 
 
-final class Point: CustomStringConvertible, GraphNode, Codable, Hashable {
+class Point: CustomStringConvertible, Codable, Hashable {
     
-    let x: Int
-    let y: Int
+    var x: Int
+    var y: Int
 
     init(x: Int, y: Int) {
         self.x = x
         self.y = y
-        connectedNodes = []
     }
     
-    public var connectedNodes: Set<Point>
-    
-     func setConnectedNodes(for snake: Snake, with data: Data) {
-        connectedNodes = successors(for: snake, with: data)
-    }
+
     
     func find_safe_move(for snake: Snake, from data: Data) -> String {
-        if Point(x: self.x, y: self.y + 1).is_safe(for: snake, with: data) {
+        if Point(x: self.x, y: self.y + 1).is_safe(with: data) {
             return "down"
-        } else if Point(x: self.x, y: self.y - 1).is_safe(for: snake, with: data) {
+        } else if Point(x: self.x, y: self.y - 1).is_safe( with: data) {
             return "up"
+        } else if Point(x: x + 1, y: y).is_safe(with: data) {
+            return "right"
         }
         return "left"
     }
@@ -40,17 +37,14 @@ final class Point: CustomStringConvertible, GraphNode, Codable, Hashable {
           let width = data.board.width
           let height = data.board.height
           
-        if(self.x >= width || self.x < 0) { return false }
-          if(Int(self.y) >= height || Int(self.y) < 0) { return false }
+        if(x >= width || x < 0) { return false }
+          if(y >= height || y < 0) { return false }
           return true
       }
     
-    func is_safe(for me: Snake, with data: Data) -> Bool {
+    func is_safe(with data: Data) -> Bool {
         if !in_bounds(with: data){ return false }
         for snake in data.board.snakes {
-            if(snake.id == me.id && self == snake.body[0]) {
-                return me.body.count > snake.body.count
-            }
             for point in snake.body {
                 if point.x == self.x && point.y == self.y {
                     return false
@@ -77,7 +71,7 @@ final class Point: CustomStringConvertible, GraphNode, Codable, Hashable {
     func successors(for snake: Snake, with data: Data) ->  Set<Point>{
         var successors: Set<Point> = []
         for p in self.orthogonal() {
-            if p.is_safe(for: snake, with: data) {
+            if p.is_safe(with: data) {
                 successors.insert(p)
             }
         }
@@ -97,13 +91,5 @@ final class Point: CustomStringConvertible, GraphNode, Codable, Hashable {
         "(\(self.x), \(self.y))"
     }
     
-    // Mark - AStar Methods
-    
-    public func estimatedCost(to node: Point) -> Float {
-        return Float(distance(to: node))
-    }
-    
-    public func cost(to node: Point) -> Float {
-        return 1
-    }
+
 }
