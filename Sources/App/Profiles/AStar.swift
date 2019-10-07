@@ -12,7 +12,9 @@ class AStar {
     class func getNextMove(from data: Data) -> [String: String] {
         let head = data.you.body[0]
         let start = AStarPoint(x: head.x, y: head.y)
-        let path = start.findPath(to: AStarPoint(x: 0, y: 0), with: data)
+        let nearestFood = data.you.nearestFood(from: data)
+        let end = AStarPoint(x: nearestFood.x, y: nearestFood.y)
+        let path = start.findPath(to: end, with: data)
         let move: String
         if path.count > 1 {
             move = data.you.dir(to: path[1])

@@ -42,6 +42,18 @@ struct Snake: Codable, CustomStringConvertible {
             return "down"
         }
     }
+    
+    func nearestFood(from data: Data) -> Point {
+        let allFood = data.board.food
+        let head = body[0]
+        var nearestFood: Point = allFood[0]
+        for food in allFood {
+            if(head.distance(to: nearestFood) > head.distance(to: food)) {
+                nearestFood = food
+            }
+        }
+        return nearestFood
+    }
 
 
 }

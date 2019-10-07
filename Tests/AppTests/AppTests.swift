@@ -95,4 +95,13 @@ final class AppTests: XCTestCase {
         
         XCTAssert(dir2 == "down")
     }
+    
+    func testNearestFood() throws {
+        let data = getTestData()
+        let snake = data.board.snakes[0]
+        
+        let nearestFood = snake.nearestFood(from: data)
+        
+        XCTAssert(nearestFood == Point(x: 0, y: 0))
+    }
 }
