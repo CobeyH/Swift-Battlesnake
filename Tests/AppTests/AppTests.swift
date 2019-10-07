@@ -84,4 +84,15 @@ final class AppTests: XCTestCase {
         
         XCTAssert(expectedResults2 == actualResults2)
     }
+    
+    func testDirToPoint() throws {
+        let snake = getTestData().board.snakes[0]
+        let dir = snake.dir(to: Point(x: 1, y: 2))
+        
+        XCTAssert(dir == "left")
+    
+        let dir2 = snake.dir(to: Point(x: 2, y: 3))
+        
+        XCTAssert(dir2 == "down")
+    }
 }

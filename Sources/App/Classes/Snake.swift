@@ -29,6 +29,19 @@ struct Snake: Codable, CustomStringConvertible {
         }
         return "left"
     }
+    
+    func dir(to point: Point) -> String {
+        let head = body[0]
+        if(head.x < point.x) {
+            return "right"
+        } else if(head.x > point.x) {
+            return "left"
+        } else if(head.y > point.y) {
+            return "up"
+        } else {
+            return "down"
+        }
+    }
 
 
 }
