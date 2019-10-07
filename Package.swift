@@ -12,12 +12,9 @@ let package = Package(
 
         // 🔵 Swift ORM (queries, models, relations, etc) built on SQLite 3.
         .package(url: "https://github.com/vapor/fluent-sqlite.git", from: "3.0.0"),
-        
-        //A* Implementation in Swift
-        .package(url: "https://github.com/Dev1an/A-Star.git", .branch("master"))
     ],
     targets: [
-    .target(name: "App", dependencies: ["FluentSQLite", "Vapor", "AStar"]),
+    .target(name: "App", dependencies: ["FluentSQLite", "Vapor"]),
         .target(name: "Run", dependencies: ["App"]),
         .testTarget(name: "AppTests", dependencies: ["App"])
     ]

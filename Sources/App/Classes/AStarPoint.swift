@@ -10,21 +10,14 @@ import AStar
 
 final class AStarPoint: Point, GraphNode {
     
-    var connectedNodes: Set<AStarPoint>
-
-    init(x: Int, y: Int, snake: Snake, data: Data) {
-        connectedNodes = Set<AStarPoint>()
-        super.init(x: x, y: y)
-        let tempnodes = successors(with: data)
-               for node in tempnodes {
-                connectedNodes.insert(AStarPoint(x: node.x, y: node.y, snake: snake, data: data))
-               }
+    func getConnectedNodes(from data: Data) -> Set<AStarPoint> {
+        var connectedNodes: Set<AStarPoint> = []
+        for point in successors(with: data) {
+            connectedNodes.insert(AStarPoint(x: point.x, y: point.y))
+        }
+        return connectedNodes
     }
     
-    
-    required init(from decoder: Decoder) throws {
-        fatalError("init(from:) has not been implemented")
-    }
     
     // Mark - AStar Methods
     

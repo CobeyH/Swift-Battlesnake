@@ -30,5 +30,6 @@ struct Snake: Codable, CustomStringConvertible {
         return "left"
     }
 
+
 }
 
