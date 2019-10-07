@@ -15,7 +15,7 @@ final class AStarPoint: Point, GraphNode {
     init(x: Int, y: Int, snake: Snake, data: Data) {
         connectedNodes = Set<AStarPoint>()
         super.init(x: x, y: y)
-        let tempnodes = successors(for: snake, with: data)
+        let tempnodes = successors(with: data)
                for node in tempnodes {
                 connectedNodes.insert(AStarPoint(x: node.x, y: node.y, snake: snake, data: data))
                }

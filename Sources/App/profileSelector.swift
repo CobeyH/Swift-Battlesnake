@@ -7,7 +7,7 @@
 
 import Foundation
 
-let profile: Profile = .None
+let profile: Profile = .AStar
 
 func getNextMove(data: Data) -> [String: String] {
     switch profile {
@@ -16,8 +16,7 @@ func getNextMove(data: Data) -> [String: String] {
         case .AlphaBeta:
             return AlphaBeta.getNextMove()
         default:
-            let head = data.you.body[0]
-            let dir = head.find_safe_move(for: data.you, from: data)
+            let dir = data.you.find_safe_move(from: data)
             print(data)
             return ["move": dir]
         

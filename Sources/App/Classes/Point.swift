@@ -19,19 +19,7 @@ class Point: CustomStringConvertible, Codable, Hashable {
         self.x = x
         self.y = y
     }
-    
 
-    
-    func find_safe_move(for snake: Snake, from data: Data) -> String {
-        if Point(x: self.x, y: self.y + 1).is_safe(with: data) {
-            return "down"
-        } else if Point(x: self.x, y: self.y - 1).is_safe( with: data) {
-            return "up"
-        } else if Point(x: x + 1, y: y).is_safe(with: data) {
-            return "right"
-        }
-        return "left"
-    }
     
     func in_bounds(with data: Data) -> Bool {
           let width = data.board.width
@@ -68,7 +56,7 @@ class Point: CustomStringConvertible, Codable, Hashable {
         return abs(self.x - point.x) + abs(self.y - point.y)
     }
     
-    func successors(for snake: Snake, with data: Data) ->  Set<Point>{
+    func successors(with data: Data) ->  Set<Point>{
         var successors: Set<Point> = []
         for p in self.orthogonal() {
             if p.is_safe(with: data) {

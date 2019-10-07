@@ -20,17 +20,6 @@ struct Board: Codable {
     
 }
 
-// MARK: - Snake
-struct Snake: Codable, CustomStringConvertible {
-    let id, name: String
-    let health: Int
-    let body: [Point]
-    
-    var description: String {
-        "Name: \(name) Health: \(health) \n Body: \(body)\n"
-    }
-}
-
 // MARK: - Game
 struct Game: Codable {
     let id: String
