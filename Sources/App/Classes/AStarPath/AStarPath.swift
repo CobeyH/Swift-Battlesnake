@@ -14,7 +14,7 @@ protocol GraphNode: Hashable {
     /**
      * List of other graph nodes that this node has an edge leading to.
      */
-    func getConnectedNodes(from data: Data) -> Set<Self>
+    func successors(from data: Data) -> Set<Self>
     
     
     /// Returns the estimated heuristic cost to reach the indicated node from this node
@@ -96,7 +96,7 @@ extension GraphNode {
         var possibleSteps = [Step<Self>]()
         var eliminatedNodes: Set = [self]
         
-        let connectedNodes = getConnectedNodes(from: data)
+        let connectedNodes = successors(from: data)
         for connectedNode in connectedNodes {
             let step = Step(from: self, to: connectedNode, goal: goalNode)
             possibleSteps.sortedInsert(newElement: step)
@@ -115,7 +115,7 @@ extension GraphNode {
                 break
             }
             eliminatedNodes.insert(step.node)
-            let nextNodes = step.node.getConnectedNodes(from: data).subtracting(eliminatedNodes)
+            let nextNodes = step.node.successors(from: data).subtracting(eliminatedNodes)
             for node in nextNodes {
                 // TODO don't generate a step because in some cases it is never used
                 let nextStep = Step(destination: node, previous: step, goal: goalNode)

@@ -10,7 +10,7 @@ import AStar
 
 
 
-class Point: CustomStringConvertible, Codable, Hashable {
+final class Point: CustomStringConvertible, Codable, Hashable, GraphNode {
     
     var x: Int
     var y: Int
@@ -56,7 +56,7 @@ class Point: CustomStringConvertible, Codable, Hashable {
         return abs(self.x - point.x) + abs(self.y - point.y)
     }
     
-    func successors(with data: Data) ->  Set<Point>{
+    func successors(from data: Data) ->  Set<Point>{
         var successors: Set<Point> = []
         for p in self.orthogonal() {
             if p.is_safe(with: data) {
@@ -77,6 +77,17 @@ class Point: CustomStringConvertible, Codable, Hashable {
     
     public var description : String {
         "(\(self.x), \(self.y))"
+    }
+    
+    
+    // Mark - AStar Methods
+    
+    public func estimatedCost(to node: Point) -> Float {
+        return Float(distance(to: node))
+    }
+    
+    public func cost(to node: Point) -> Float {
+        return Float(distance(to: node))
     }
     
 

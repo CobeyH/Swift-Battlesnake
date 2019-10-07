@@ -74,13 +74,13 @@ final class AppTests: XCTestCase {
         let data = getTestData()
         let p1 = Point(x: 3, y: 3)
         let expectedResults: Set<Point> = [Point(x: 2, y: 3), Point(x: 3, y: 2), Point(x: 4, y: 3), Point(x: 3, y: 4)]
-        let actualResults = p1.successors(with: data)
+        let actualResults = p1.successors(from: data)
         
         XCTAssert(expectedResults == actualResults)
         
         let p2 = Point(x: 2, y: 2)
         let expectedResults2: Set<Point> = [Point(x: 3, y: 2), Point(x: 2, y: 3)]
-        let actualResults2 = p2.successors(with: data)
+        let actualResults2 = p2.successors(from: data)
         
         XCTAssert(expectedResults2 == actualResults2)
     }
