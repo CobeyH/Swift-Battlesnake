@@ -54,6 +54,24 @@ struct Snake: Codable, CustomStringConvertible {
         }
         return nearestFood
     }
+    
+    func floodFill(from data: Data) -> Int {
+        var visited: Set<Point> = [self.body[0]]
+        var toVisit: Set<Point> = [self.body[0]]
+        
+        while(!toVisit.isEmpty) {
+            let curr = toVisit.popFirst()
+            for neighbour in curr!.successors(from: data) {
+                if(!visited.contains(neighbour)) {
+                    visited.insert(neighbour)
+                    toVisit.insert(neighbour)
+                }
+
+            }
+        }
+        // Subtract 1 becasue the head of the snake shouldn't count as a safe tile
+        return visited.count - 1
+    }
 
 
 }

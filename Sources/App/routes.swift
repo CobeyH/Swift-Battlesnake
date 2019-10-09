@@ -9,7 +9,7 @@ public func routes(_ router: Router) throws {
     
     // Repsonse to /start request
     router.post("start") { req -> [String: String] in
-        return ["":""]
+        return ["color":"#00BEC1"]
     }
     
     // Response to /move requests
@@ -31,6 +31,5 @@ public func routes(_ router: Router) throws {
     router.post("end") {req -> [String: String] in
         print("We Died")
         return ["move": "up"]
-    
     }
 }

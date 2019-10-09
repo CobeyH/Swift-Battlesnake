@@ -104,4 +104,13 @@ final class AppTests: XCTestCase {
         
         XCTAssert(nearestFood == Point(x: 0, y: 0))
     }
+    
+    func testFloodFill() throws {
+        let data = getTestData()
+        let snake = data.board.snakes[0]
+        
+        let floodFill = snake.floodFill(from: data)
+        
+        XCTAssert(floodFill == 22)
+    }
 }
