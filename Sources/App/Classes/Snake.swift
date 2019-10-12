@@ -43,6 +43,20 @@ struct Snake: Codable, CustomStringConvertible {
         }
     }
     
+    func point(from dir: Dir) -> Point {
+        let head = body[0]
+        switch dir {
+        case .Right:
+            return Point(x: head.x + 1, y: head.y)
+        case .Up:
+            return Point(x: head.x, y: head.y - 1)
+        case .Left:
+            return Point(x: head.x - 1, y: head.y)
+        case .Down:
+            return Point(x: head.x, y: head.y + 1)
+        }
+    }
+    
     func nearestFood(from data: Data) -> Point {
         let allFood = data.board.food
         let head = body[0]

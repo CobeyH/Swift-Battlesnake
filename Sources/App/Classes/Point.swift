@@ -66,6 +66,14 @@ final class Point: CustomStringConvertible, Codable, Hashable, GraphNode {
         return successors
     }
     
+    
+    func isFood(from data: Data) -> Bool {
+        if data.board.food.contains(self) {
+            return true
+        }
+        return false
+    }
+    
     static func == (point1: Point, point2: Point) -> Bool {
         return (point1.x == point2.x && point1.y == point2.y)
     }

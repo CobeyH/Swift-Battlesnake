@@ -113,4 +113,25 @@ final class AppTests: XCTestCase {
         
         XCTAssert(floodFill == 22)
     }
+    
+    func testSnakeById() throws {
+        let data = getTestData()
+        
+        let snake = data.getSnake(by: "mySnake")
+        
+        XCTAssertNotNil(snake)
+        
+        let nullSnake = data.getSnake(by: "badID")
+        
+        XCTAssertNil(nullSnake)
+    }
+    
+    func testIsFood() throws {
+        let data = getTestData()
+        
+        let food1 = Point(x: 2, y: 4)
+        
+        XCTAssert(food1.isFood(from: data))
+        
+    }
 }
