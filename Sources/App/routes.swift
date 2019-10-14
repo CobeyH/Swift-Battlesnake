@@ -18,10 +18,9 @@ public func routes(_ router: Router) throws {
             
             return getNextMove(data: data)
         }
-        
         return move
     }
-    
+
     
     
     router.post("ping") { req -> [String: String] in

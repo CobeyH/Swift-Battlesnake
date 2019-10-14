@@ -11,8 +11,8 @@ import Foundation
 // MARK: - Snake
 struct Snake: Codable, CustomStringConvertible {
     let id, name: String
-    let health: Int
-    let body: [Point]
+    var health: Int
+    var body: [Point]
     
     var description: String {
         "Name: \(name) Health: \(health) \n Body: \(body)\n"
@@ -86,7 +86,5 @@ struct Snake: Codable, CustomStringConvertible {
         // Subtract 1 becasue the head of the snake shouldn't count as a safe tile
         return visited.count - 1
     }
-
-
 }
 

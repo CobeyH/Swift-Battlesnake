@@ -132,6 +132,14 @@ final class AppTests: XCTestCase {
         let food1 = Point(x: 2, y: 4)
         
         XCTAssert(food1.isFood(from: data))
+    }
+    
+    func testUpdateFromMove() throws {
+        let data = getTestData()
+        var snake = data.board.snakes[0]
         
+        data.update(snake: &snake, from: Point(x: 3, y: 1))
+        
+        XCTAssert(snake.body == [Point(x: 3, y: 1), Point(x: 2, y: 1), Point(x: 1, y: 1)])
     }
 }

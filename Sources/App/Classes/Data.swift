@@ -4,8 +4,8 @@ import Foundation
 struct Data: Codable, CustomStringConvertible {
     let game: Game
     let turn: Int
-    let board: Board
-    let you: Snake
+    var board: Board
+    var you: Snake
     
     var description: String {
         "============================== \n Board State for turn \(turn)\n Size: \(board.width) x \(board.height) \n Our Snake: Health \(you.health) Body: \(you.body) \n Long Data\n ---------- \n All Snake: \(board.snakes) \n All Food: \(board.food)"
@@ -20,29 +20,29 @@ struct Data: Codable, CustomStringConvertible {
         return nil
     }
     
-    func update(snake: Snake, from point: Point) {
+    func update(snake: inout Snake, from point: Point) {
         let collected = point.isFood(from: self)
-        
+
         snake.body.insert(point, at: 0)
-        snake.body.popLast()
-        
+        let _ = snake.body.popLast()
+
         if(collected) {
             snake.health = 100
             let tail = snake.body.last
-            snake.body.append(tail)
+            if let tail = tail {
+                snake.body.append(tail)
+            }
         } else {
             snake.health = snake.health - 1
         }
- 
-        
     }
 }
 
 // MARK: - Board
 struct Board: Codable {
     let height, width: Int
-    let food: [Point]
-    let snakes: [Snake]
+    var food: [Point]
+    var snakes: [Snake]
 }
 
 // MARK: - Game
