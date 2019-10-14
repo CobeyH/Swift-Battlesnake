@@ -19,9 +19,9 @@ class AlphaBeta {
             if(snake.id != myId) {
                 enemyId = snake.id
             }
-            
         }
         let (score, bestMove) = AlphaBeta.minimax(with: data, max_player: true, enemyId: enemyId, myId: myId, depth: 1, alpha: MIN, beta: MAX)
+        print(score, bestMove)
         let bestDir = score > MIN ? data.you.dir(to: bestMove) : data.you.find_safe_move(from: data)
         return ["move": bestDir]
     }
@@ -29,13 +29,12 @@ class AlphaBeta {
     class func minimax(with data: Data, max_player: Bool, enemyId: String, myId: String, depth: Int, alpha: Int, beta: Int) -> (Int, Point) {
         let mySnake = data.getSnake(by: myId)
         let enemySnake = data.getSnake(by: enemyId)
-        var best_move = Point(x: 0, y: 0)
-        if(depth > 8) {
+        if(depth > 4) {
             return (2 * finalScore(for: mySnake!, from: data) - finalScore(for: enemySnake!, from: data), Point(x: 0, y: 0))
         }
         
         var (temp_snake, best_score) = max_player ? (data.getSnake(by: myId), -1000000) : (data.getSnake(by: enemyId), 1000000)
-        
+        var best_move = Point(x: 0, y: 0)
         var successors = temp_snake!.body[0].successors(from: data)
         //Add our head as a possible move for the enemy
         if(!max_player) {
@@ -50,24 +49,25 @@ class AlphaBeta {
         for pos_move in successors {
             let new_st = data
             
-            if (max_player) {
-                let snake = new_st.you
-                if(snake.health == 0) {
+            if(max_player) {
+                var snake = new_st.getSnake(by: myId)
+                new_st.update(snake: &(snake!), from: pos_move)
+                if(snake!.health == 0) {
                     continue
                 }
                 let (val, _) = minimax(with: new_st, max_player: false, enemyId: enemyId, myId: myId, depth: depth + 1, alpha: alpha, beta: beta)
                 if(val > best_score) {
                     best_move = pos_move
                 }
-                best_score = max(alpha, best_score)
+                best_score = max(val, best_score)
                 let new_alpha = max(alpha, best_score)
                 
-                if(beta < new_alpha) {
+                if(beta <= new_alpha) {
                     break
                 }
             } else {
-                let snake = new_st.getSnake(by: enemyId)
-                
+                var snake = new_st.getSnake(by: enemyId)
+                new_st.update(snake: &(snake)!, from: pos_move)
                 // Handle head on condition
                 let our_snake = new_st.you
                 if(our_snake.body[0] == pos_move) {
