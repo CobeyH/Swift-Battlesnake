@@ -135,11 +135,17 @@ final class AppTests: XCTestCase {
     }
     
     func testUpdateFromMove() throws {
+        var data = getTestData()
+        
+        data.update(snake: &data.board.snakes[0], from: Point(x: 3, y: 1))
+        
+        XCTAssert(data.board.snakes[0].body == [Point(x: 3, y: 1), Point(x: 2, y: 1), Point(x: 1, y: 1)])
+    }
+    
+    func testIndexOf() throws {
         let data = getTestData()
-        var snake = data.board.snakes[0]
+        let index = data.index(of: "mySnake")
         
-        data.update(snake: &snake, from: Point(x: 3, y: 1))
-        
-        XCTAssert(snake.body == [Point(x: 3, y: 1), Point(x: 2, y: 1), Point(x: 1, y: 1)])
+        XCTAssert(index == 0)
     }
 }

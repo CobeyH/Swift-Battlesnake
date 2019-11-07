@@ -38,7 +38,7 @@ class AlphaBeta {
         var successors = temp_snake!.body[0].successors(from: data)
         //Add our head as a possible move for the enemy
         if(!max_player) {
-            let ourHead = data.you.body[0]
+            let ourHead = data.getSnake(by: myId)!.body[0]
             for point in temp_snake!.body[0].orthogonal() {
                 if(point == ourHead) {
                     successors.insert(ourHead)
@@ -47,12 +47,12 @@ class AlphaBeta {
         }
         
         for pos_move in successors {
-            let new_st = data
+            var new_st = data
             
             if(max_player) {
-                var snake = new_st.getSnake(by: myId)
-                new_st.update(snake: &(snake!), from: pos_move)
-                if(snake!.health == 0) {
+                let index = new_st.index(of: myId)!
+                new_st.update(snake: &(new_st.board.snakes[index]), from: pos_move)
+                if(new_st.board.snakes[index].health == 0) {
                     continue
                 }
                 let (val, _) = minimax(with: new_st, max_player: false, enemyId: enemyId, myId: myId, depth: depth + 1, alpha: alpha, beta: beta)
@@ -66,15 +66,15 @@ class AlphaBeta {
                     break
                 }
             } else {
-                var snake = new_st.getSnake(by: enemyId)
-                new_st.update(snake: &(snake)!, from: pos_move)
+                let index = new_st.index(of: enemyId)!
+                new_st.update(snake: &(new_st.board.snakes[index]), from: pos_move)
                 // Handle head on condition
-                let our_snake = new_st.you
+                let our_snake = new_st.getSnake(by: myId)!
                 if(our_snake.body[0] == pos_move) {
-                    if(our_snake.body.count > snake!.body.count) {
+                    if(our_snake.body.count > new_st.board.snakes[index].body.count) {
                         continue
                     } else {
-                        return (-500000, best_move)
+                        return (-1000000, best_move)
                     }
                 }
                 

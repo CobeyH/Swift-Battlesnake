@@ -36,6 +36,15 @@ struct Data: Codable, CustomStringConvertible {
             snake.health = snake.health - 1
         }
     }
+    
+    func index(of snake_id: String) -> Int? {
+        for (i, snake) in board.snakes.enumerated() {
+            if snake.id == snake_id {
+                return i
+            }
+        }
+        return nil
+    }
 }
 
 // MARK: - Board
